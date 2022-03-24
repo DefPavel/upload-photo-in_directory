@@ -1,29 +1,13 @@
-﻿using FirebirdSql.Data.FirebirdClient;
-using System.Drawing;
-using System.Drawing.Imaging;
-
-
-public static class ServiceFireBird
+﻿internal static class ServiceFireBird
 {
     public static byte[] GetBytes(string fileName)
     {
         Image imageToConvert = Image.FromFile(fileName);
-
         using var ms = new MemoryStream();
         imageToConvert.Save(ms, format: imageToConvert.RawFormat);
         return ms.ToArray();
     }
 
-    /*public static byte[] ConvertImageToByteArray(string fileName)
-    {
-        Bitmap bitMap = new(fileName);
-        ImageFormat bmpFormat = bitMap.RawFormat;
-        Image imageToConvert = Image.FromFile(fileName);
-        using MemoryStream ms = new();
-        imageToConvert.Save(ms, bmpFormat);
-        return ms.ToArray();
-    }
-    */
     public static async Task<int> GetIdByFullName(string fullName)
     {
         string firstName = fullName.Split(' ')[0];
@@ -42,7 +26,6 @@ public static class ServiceFireBird
         return 0;
     }
 
-
     public static async Task UpdateImage(byte[] picbyte, int id)
     {
 
@@ -55,7 +38,6 @@ public static class ServiceFireBird
         cmd.Parameters.AddWithValue("@photo", picbyte);
         cmd.Parameters.AddWithValue("@id", id);
         _ = await cmd.ExecuteNonQueryAsync();
-
     }
 }
 
